@@ -2,8 +2,15 @@ import { pgTable, text, json } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+export const users = pgTable("users", {
+  id: text("id").primaryKey(),
+  username: text("username").unique().notNull(),
+  password: text("password").notNull(),
+});
+
 export const resumes = pgTable("resumes", {
   id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id),
   title: text("title").notNull(),
   style: text("style").notNull().default("minimal"),
   language: text("language").notNull().default("English"),
@@ -17,8 +24,11 @@ export const resumes = pgTable("resumes", {
   createdAt: text("created_at").notNull(),
 });
 
+export const insertUserSchema = createInsertSchema(users);
 export const insertResumeSchema = createInsertSchema(resumes).omit({ id: true, createdAt: true });
 
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Resume = typeof resumes.$inferSelect;
 export type InsertResume = z.infer<typeof insertResumeSchema>;
 
@@ -68,6 +78,7 @@ export const createResumeRequestSchema = insertResumeSchema.extend({
     "elegant", "bold", "clean", "tech", "executive",
     "vintage", "playful", "corporate", "startup", "academic"
   ]).default("minimal"),
+  language: z.string().min(1, "Language is required").default("English"),
 });
 
 export type CreateResumeRequest = z.infer<typeof createResumeRequestSchema>;

@@ -57,19 +57,23 @@ export default function Editor() {
   const updateMutation = useUpdateResume();
 
   const printRef = useRef<HTMLDivElement>(null);
-  const handlePrint = useReactToPrint({
-    contentRef: printRef,
-    documentTitle: "Resume",
-  });
-
   const form = useForm<CreateResumeRequest>({
     resolver: zodResolver(createResumeRequestSchema),
     defaultValues: isNew ? DEFAULT_RESUME : undefined,
   });
 
+  const formData = form.watch();
+
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: formData.title || "Resume",
+    onAfterPrint: () => console.log("Printed"),
+  });
+
+  const isSaving = createMutation.isPending || updateMutation.isPending;
+
   useEffect(() => {
     if (existingResume && !isNew) {
-      // Ensure we format it to match the CreateResumeRequest shape
       form.reset({
         title: existingResume.title,
         style: existingResume.style as CreateResumeRequest["style"],
@@ -96,9 +100,6 @@ export default function Editor() {
       updateMutation.mutate({ id: id!, data });
     }
   };
-
-  const formData = form.watch();
-  const isSaving = createMutation.isPending || updateMutation.isPending;
 
   if (isLoading && !isNew) {
     return (

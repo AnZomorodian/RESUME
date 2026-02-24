@@ -221,16 +221,20 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ data }, ref) => {
     const style = STYLE_MAP[data.style || "minimal"];
     const isClean = data.style === "clean";
+    const language = data.language || "English";
 
     return (
       <div 
         ref={ref} 
-        className={`print-exact w-[210mm] min-h-[297mm] p-[15mm] mx-auto shadow-2xl ring-1 ring-black/5 ${style.wrapper}`}
+        className={`print-exact w-[210mm] min-h-[297mm] p-[15mm] mx-auto shadow-2xl ring-1 ring-black/5 flex flex-col ${style.wrapper}`}
+        style={{ height: '297mm', overflow: 'hidden' }}
       >
         <header className={style.header}>
           <div className={isClean ? "" : "w-full"}>
             <h1 className={style.name}>{data.personalInfo.fullName || "Your Name"}</h1>
-            {data.language && <div className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{data.language}</div>}
+            <div className="flex items-center gap-2">
+              {language && <div className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{language}</div>}
+            </div>
             {!isClean && data.personalInfo.fullName && <div className="h-2"></div>}
           </div>
           
