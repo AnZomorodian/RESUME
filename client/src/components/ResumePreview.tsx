@@ -1,12 +1,12 @@
 import React, { forwardRef } from "react";
 import { CreateResumeRequest } from "@shared/schema";
-import { Mail, Phone, MapPin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Globe, User } from "lucide-react";
 
 interface ResumePreviewProps {
   data: CreateResumeRequest;
 }
 
-// Map of the 10 styles and their distinct Tailwind classes
+// Map of the style and their distinct Tailwind classes
 const STYLE_MAP: Record<string, {
   wrapper: string;
   header: string;
@@ -216,10 +216,10 @@ const STYLE_MAP: Record<string, {
     skillPill: "text-sm text-gray-800 px-2",
   },
   canva: {
-    wrapper: "font-['Montserrat'] text-slate-900 bg-white leading-tight",
-    header: "mb-0 flex flex-row h-[60mm] -mx-[15mm] -mt-[15mm] overflow-hidden",
+    wrapper: "font-['Montserrat'] text-slate-900 bg-white leading-tight relative",
+    header: "mb-0 flex flex-row -mx-[15mm] -mt-[15mm] overflow-hidden min-h-[60mm]",
     name: "text-5xl font-black uppercase tracking-tighter leading-none text-white",
-    contact: "flex flex-col gap-2 text-sm font-bold text-white/90 mt-4",
+    contact: "flex flex-col gap-3 text-sm font-bold text-white/90 mt-6",
     section: "mb-8",
     sectionTitle: "text-xl font-black uppercase tracking-widest text-slate-900 mb-4 pb-1 border-b-4 border-slate-900 inline-block",
     itemTitle: "text-lg font-extrabold text-slate-900 uppercase tracking-tight",
@@ -227,6 +227,84 @@ const STYLE_MAP: Record<string, {
     itemDate: "text-xs font-black text-slate-400 uppercase tracking-widest",
     bodyText: "text-sm font-medium text-slate-600 mt-2 leading-snug",
     skillPill: "text-xs font-black uppercase tracking-widest text-white bg-slate-900 px-3 py-1.5 rounded-full",
+  },
+  premium: {
+    wrapper: "font-['Inter'] text-slate-900 bg-white",
+    header: "mb-10 bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-12 -mx-[15mm] -mt-[15mm] border-b-8 border-indigo-500",
+    name: "text-6xl font-black tracking-tighter mb-4",
+    contact: "flex flex-wrap gap-6 text-sm font-medium text-indigo-200",
+    section: "mb-10",
+    sectionTitle: "text-xs font-black uppercase tracking-[0.2em] text-indigo-600 mb-6 flex items-center gap-4 before:h-px before:w-8 before:bg-indigo-600",
+    itemTitle: "text-xl font-bold text-slate-900",
+    itemSubtitle: "text-base font-semibold text-indigo-600",
+    itemDate: "text-sm font-medium text-slate-400",
+    bodyText: "text-sm text-slate-600 mt-2 leading-relaxed",
+    skillPill: "text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200",
+  },
+  emerald: {
+    wrapper: "font-['Inter'] text-emerald-950 bg-white",
+    header: "mb-8 bg-emerald-600 text-white p-10 -mx-[15mm] -mt-[15mm]",
+    name: "text-5xl font-black mb-2",
+    contact: "flex flex-wrap gap-4 text-sm font-medium text-emerald-50",
+    section: "mb-8",
+    sectionTitle: "text-sm font-black uppercase tracking-widest text-emerald-600 border-b-2 border-emerald-100 pb-1 mb-4",
+    itemTitle: "font-bold text-emerald-900",
+    itemSubtitle: "text-sm font-semibold text-emerald-700",
+    itemDate: "text-xs text-emerald-500",
+    bodyText: "text-sm text-emerald-800/80 mt-2",
+    skillPill: "text-xs font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100",
+  },
+  slate: {
+    wrapper: "font-['Inter'] text-slate-900 bg-slate-50/50",
+    header: "mb-10 border-l-4 border-slate-900 pl-8",
+    name: "text-5xl font-bold tracking-tight mb-2",
+    contact: "flex flex-wrap gap-4 text-sm text-slate-500",
+    section: "mb-8",
+    sectionTitle: "text-xs font-bold uppercase tracking-[0.3em] text-slate-400 mb-6",
+    itemTitle: "text-lg font-bold",
+    itemSubtitle: "text-sm font-medium text-slate-600",
+    itemDate: "text-sm text-slate-400",
+    bodyText: "text-sm leading-relaxed text-slate-600 mt-2",
+    skillPill: "text-xs font-medium border border-slate-200 bg-white px-2 py-1 rounded",
+  },
+  royal: {
+    wrapper: "font-['Playfair_Display'] text-slate-900 bg-white",
+    header: "mb-12 text-center border-double border-b-4 border-slate-200 pb-8",
+    name: "text-5xl font-black text-slate-900 mb-4 tracking-tight",
+    contact: "font-['Inter'] flex justify-center gap-6 text-xs uppercase tracking-widest text-slate-500",
+    section: "mb-10",
+    sectionTitle: "font-['Inter'] text-xs font-black uppercase tracking-[0.4em] text-center text-amber-600 mb-8",
+    itemTitle: "text-xl font-bold",
+    itemSubtitle: "italic text-slate-600",
+    itemDate: "font-['Inter'] text-xs uppercase tracking-widest text-slate-400",
+    bodyText: "font-['Inter'] text-sm leading-loose text-slate-600 mt-4",
+    skillPill: "font-['Inter'] text-[10px] uppercase tracking-widest border-b border-amber-200 px-1",
+  },
+  tokyo: {
+    wrapper: "font-['Fira_Code'] text-pink-500 bg-[#1a1b26]",
+    header: "mb-8 border-b border-slate-800 pb-6",
+    name: "text-4xl font-bold text-cyan-400 mb-2",
+    contact: "flex flex-wrap gap-4 text-xs text-slate-400",
+    section: "mb-8",
+    sectionTitle: "text-sm font-bold text-purple-400 mb-4 flex items-center gap-2 before:content-['#']",
+    itemTitle: "text-slate-100",
+    itemSubtitle: "text-yellow-400",
+    itemDate: "text-slate-500",
+    bodyText: "text-slate-400 text-xs leading-relaxed mt-2",
+    skillPill: "text-[10px] border border-slate-700 text-cyan-300 px-2 py-0.5 rounded-full",
+  },
+  organic: {
+    wrapper: "font-['Inter'] text-stone-800 bg-[#f9f8f6]",
+    header: "mb-10 flex flex-col gap-4",
+    name: "text-5xl font-serif italic text-stone-900",
+    contact: "flex flex-wrap gap-4 text-sm text-stone-500",
+    section: "mb-10",
+    sectionTitle: "text-lg font-serif italic border-b border-stone-200 pb-2 mb-6",
+    itemTitle: "text-lg font-bold text-stone-900",
+    itemSubtitle: "text-stone-600",
+    itemDate: "text-sm text-stone-400",
+    bodyText: "text-sm leading-relaxed text-stone-600 mt-2",
+    skillPill: "text-xs bg-stone-200/50 text-stone-700 px-3 py-1 rounded-full",
   }
 };
 
@@ -236,6 +314,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
     const isClean = data.style === "clean";
     const isCanva = data.style === "canva";
     const language = data.language || "English";
+    const languages = (data as any).languages || [];
 
     return (
       <div 
@@ -252,25 +331,30 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
               <div className={style.contact}>
                 {data.personalInfo.email && (
                   <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 shrink-0" /> <span className="truncate">{data.personalInfo.email}</span>
+                    <Mail className="w-4 h-4 shrink-0 text-indigo-400" /> <span className="truncate">{data.personalInfo.email}</span>
                   </div>
                 )}
                 {data.personalInfo.phone && (
                   <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 shrink-0" /> {data.personalInfo.phone}
+                    <Phone className="w-4 h-4 shrink-0 text-indigo-400" /> {data.personalInfo.phone}
                   </div>
                 )}
                 {data.personalInfo.location && (
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 shrink-0" /> {data.personalInfo.location}
+                    <MapPin className="w-4 h-4 shrink-0 text-indigo-400" /> {data.personalInfo.location}
+                  </div>
+                )}
+                {data.personalInfo.website && (
+                  <div className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 shrink-0 text-indigo-400" /> {data.personalInfo.website}
                   </div>
                 )}
               </div>
             </div>
-            <div className="flex-1 bg-indigo-600 p-8 flex flex-col justify-center">
+            <div className="flex-1 bg-indigo-600 p-10 flex flex-col justify-center">
               <h1 className={style.name}>{data.personalInfo.fullName || "Your Name"}</h1>
               {data.summary && (
-                <p className="text-white/80 text-sm font-medium mt-4 line-clamp-3 leading-relaxed">
+                <p className="text-white/80 text-sm font-medium mt-6 leading-relaxed">
                   {data.summary}
                 </p>
               )}
@@ -282,6 +366,13 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
               <h1 className={style.name}>{data.personalInfo.fullName || "Your Name"}</h1>
               <div className="flex items-center gap-2">
                 {language && <div className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{language}</div>}
+                {languages.length > 0 && (
+                  <div className="flex gap-2 border-l pl-2 ml-2">
+                    {languages.map((l: any, i: number) => (
+                      <span key={i} className="text-[10px] font-bold text-muted-foreground uppercase">{l.name} ({l.level})</span>
+                    ))}
+                  </div>
+                )}
               </div>
               {!isClean && data.personalInfo.fullName && <div className="h-2"></div>}
             </div>
@@ -311,8 +402,8 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
           </header>
         )}
 
-        <div className={isCanva ? "flex flex-row gap-8 mt-8 flex-1" : "flex flex-col flex-1"}>
-          <div className={isCanva ? "w-2/3 flex flex-col gap-8" : "w-full flex flex-col"}>
+        <div className={isCanva ? "flex flex-row gap-12 mt-12 flex-1" : "flex flex-col flex-1"}>
+          <div className={isCanva ? "w-2/3 flex flex-col gap-10" : "w-full flex flex-col"}>
             {data.summary && !isCanva && (
               <section className={style.section}>
                 {isClean ? (
@@ -334,7 +425,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             {data.experience.length > 0 && (
               <section className={style.section}>
                 <h2 className={style.sectionTitle}>Experience</h2>
-                <div className={isClean ? "flex-1 flex flex-col gap-6" : "flex flex-col gap-5 w-full"}>
+                <div className={isClean ? "flex-1 flex flex-col gap-6" : "flex flex-col gap-6 w-full"}>
                   {data.experience.map((exp) => (
                     <div key={exp.id}>
                       <div className="flex justify-between items-baseline mb-1">
@@ -356,7 +447,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             {data.projects.length > 0 && (
               <section className={style.section}>
                 <h2 className={style.sectionTitle}>Projects</h2>
-                <div className={isClean ? "flex-1 flex flex-col gap-5" : "flex flex-col gap-4 w-full"}>
+                <div className={isClean ? "flex-1 flex flex-col gap-6" : "flex flex-col gap-5 w-full"}>
                   {data.projects.map((proj) => (
                     <div key={proj.id}>
                       <div className="flex items-center gap-2 mb-1">
@@ -373,11 +464,11 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             )}
           </div>
 
-          <div className={isCanva ? "w-1/3 flex flex-col gap-8" : "w-full flex flex-col"}>
+          <div className={isCanva ? "w-1/3 flex flex-col gap-10" : "w-full flex flex-col"}>
             {data.education.length > 0 && (
               <section className={style.section}>
                 <h2 className={style.sectionTitle}>Education</h2>
-                <div className={isClean ? "flex-1 flex flex-col gap-5" : "flex flex-col gap-4 w-full"}>
+                <div className={isClean ? "flex-1 flex flex-col gap-6" : "flex flex-col gap-5 w-full"}>
                   {data.education.map((edu) => (
                     <div key={edu.id}>
                       <div className="flex flex-col mb-1">
@@ -417,6 +508,22 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
                       <span key={index} className={style.skillPill}>
                         {hobby}
                       </span>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {(data as any).languages && (data as any).languages.length > 0 && (
+              <section className={style.section}>
+                <h2 className={style.sectionTitle}>Languages</h2>
+                <div className={isClean ? "flex-1" : "w-full"}>
+                  <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    {(data as any).languages.map((lang: any, index: number) => (
+                      <div key={index} className="flex flex-col">
+                        <span className={style.itemTitle + " text-sm"}>{lang.name}</span>
+                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{lang.level}</span>
+                      </div>
                     ))}
                   </div>
                 </div>

@@ -41,7 +41,8 @@ export function ResumeForm({ form }: ResumeFormProps) {
   const STYLES = [
     "minimal", "modern", "classic", "creative", "professional", 
     "elegant", "bold", "clean", "tech", "executive",
-    "vintage", "playful", "corporate", "startup", "academic", "canva"
+    "vintage", "playful", "corporate", "startup", "academic", "canva", "premium",
+    "emerald", "slate", "royal", "tokyo", "organic"
   ];
 
   const SECTIONS = [
@@ -51,6 +52,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
     { id: "education", label: "Education", icon: GraduationCap },
     { id: "skills", label: "Skills", icon: Code },
     { id: "projects", label: "Projects", icon: Layout },
+    { id: "languages", label: "Languages", icon: Globe },
     { id: "hobbies", label: "Hobbies", icon: Heart },
   ];
 
@@ -71,13 +73,16 @@ export function ResumeForm({ form }: ResumeFormProps) {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row gap-6 lg:gap-8 pb-20">
-      {/* Section Sidebar Navigation */}
-      <div className="xl:w-64 flex-shrink-0">
-        <div className="xl:sticky xl:top-6 flex xl:flex-col gap-2 overflow-x-auto pb-4 xl:pb-0 no-scrollbar">
-          <div className="px-4 py-2 mb-2 xl:mb-4 hidden xl:block">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Resume Sections</h3>
+    <div className="flex flex-col gap-6 lg:gap-8 pb-20">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight">Resume Details</h2>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-muted px-2 py-0.5 rounded border">
+            Editing
           </div>
+        </div>
+        
+        <div className="flex overflow-x-auto no-scrollbar gap-1 p-1 bg-muted/50 rounded-lg border">
           {SECTIONS.map((section) => {
             const Icon = section.icon;
             return (
@@ -85,508 +90,496 @@ export function ResumeForm({ form }: ResumeFormProps) {
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
                 className={cn(
-                  "flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-all",
+                  "flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
                   activeSection === section.id
-                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground bg-card sm:bg-transparent border border-border sm:border-0"
+                    ? "bg-background text-foreground shadow-sm border border-border"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <Icon className="w-4 h-4" />
-                <span className="whitespace-nowrap">{section.label}</span>
+                <Icon className="w-3.5 h-3.5" />
+                <span>{section.label}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="flex-1 space-y-10">
-        {/* Basics & Style */}
-        <section className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group">
-          <div className="absolute top-0 left-0 w-2 h-full bg-primary/20 group-hover:bg-primary transition-colors"></div>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-black tracking-tight">Document Settings</h2>
-            <div className="px-4 py-1.5 bg-primary/10 text-primary text-xs font-black rounded-full uppercase tracking-widest border border-primary/20">
-              Personalizing
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            <div className="space-y-2">
-              <label className="text-sm font-bold flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
-                <Globe className="w-4 h-4" />
-                Language
-              </label>
+      <div className="space-y-6">
+        {activeSection === "personal" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 p-4 border rounded-lg bg-card/50">
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Language</label>
               <input 
                 {...register("language")}
-                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm font-medium text-sm sm:text-base"
-                placeholder="e.g. English"
+                className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                placeholder="English"
               />
-              {errors.language && <p className="text-sm text-destructive mt-1 font-medium">{errors.language.message}</p>}
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
-                <FileText className="w-4 h-4" />
-                Document Title
-              </label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Document Title</label>
               <input 
                 {...register("title")}
-                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm font-medium text-sm sm:text-base"
-                placeholder="e.g. Software Engineer Resume"
+                className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                placeholder="Resume Title"
               />
-              {errors.title && <p className="text-sm text-destructive mt-1 font-medium">{errors.title.message}</p>}
             </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-bold flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
-                <Settings className="w-4 h-4" />
-                Resume Style
-              </label>
-              <div className="relative">
-                <select 
-                  {...register("style")}
-                  className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm capitalize appearance-none font-medium cursor-pointer text-sm sm:text-base"
-                >
-                  {STYLES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">
-                  <Layout className="w-4 h-4" />
-                </div>
-              </div>
+            <div className="sm:col-span-2 space-y-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Resume Style</label>
+              <select 
+                {...register("style")}
+                className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all appearance-none"
+              >
+                {STYLES.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+              </select>
             </div>
           </div>
-        </section>
+        )}
 
-        <div className="min-h-[400px]">
-          <AnimatePresence mode="wait">
-            {activeSection === "personal" && (
-              <motion.section 
-                key="personal"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-blue-500/20 group-hover:bg-blue-500 transition-colors"></div>
-                <h2 className="text-2xl font-black tracking-tight mb-8">Personal Information</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                  <div className="sm:col-span-2 space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
-                    <input 
-                      {...register("personalInfo.fullName")}
-                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
-                      placeholder="John Doe"
-                    />
-                    {errors.personalInfo?.fullName && <p className="text-sm text-destructive mt-1 font-medium">{errors.personalInfo.fullName.message}</p>}
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
-                    <input 
-                      {...register("personalInfo.email")}
-                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Phone Number</label>
-                    <input 
-                      {...register("personalInfo.phone")}
-                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
-                      placeholder="+1 (555) 123-4567"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Location</label>
-                    <input 
-                      {...register("personalInfo.location")}
-                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
-                      placeholder="San Francisco, CA"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Portfolio / LinkedIn</label>
-                    <input 
-                      {...register("personalInfo.website")}
-                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
-                      placeholder="https://linkedin.com/in/johndoe"
-                    />
-                  </div>
+        <AnimatePresence mode="wait">
+          {activeSection === "personal" && (
+            <motion.section 
+              key="personal"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
+                  <input 
+                    {...register("personalInfo.fullName")}
+                    className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                    placeholder="John Doe"
+                  />
+                  {errors.personalInfo?.fullName && <p className="text-xs text-destructive mt-1">{errors.personalInfo.fullName.message}</p>}
                 </div>
-              </motion.section>
-            )}
+                
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Email</label>
+                  <input 
+                    {...register("personalInfo.email")}
+                    className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                    placeholder="john@example.com"
+                  />
+                </div>
 
-            {activeSection === "summary" && (
-              <motion.section 
-                key="summary"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500/20 group-hover:bg-emerald-500 transition-colors"></div>
-                <h2 className="text-2xl font-black tracking-tight mb-8">Professional Summary</h2>
-                <textarea 
-                  {...register("summary")}
-                  rows={10}
-                  className="w-full px-6 py-4 rounded-3xl bg-background border border-border/60 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all shadow-sm font-medium resize-none leading-relaxed"
-                  placeholder="Tell your professional story... What are your key achievements and goals?"
-                />
-              </motion.section>
-            )}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Phone</label>
+                  <input 
+                    {...register("personalInfo.phone")}
+                    className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                    placeholder="+1 (555) 000-0000"
+                  />
+                </div>
 
-            {activeSection === "experience" && (
-              <motion.section 
-                key="experience"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-orange-500/20 group-hover:bg-orange-500 transition-colors"></div>
-                <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-2xl font-black tracking-tight">Work Experience</h2>
-                  <button 
-                    type="button" 
-                    onClick={() => appendExp({ id: crypto.randomUUID(), company: "", position: "", startDate: "", endDate: "", description: "" })}
-                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-orange-500 text-white rounded-2xl hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-0.5 active:translate-y-0"
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Location</label>
+                  <input 
+                    {...register("personalInfo.location")}
+                    className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                    placeholder="City, State"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Website</label>
+                  <input 
+                    {...register("personalInfo.website")}
+                    className="w-full px-3 py-2 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all"
+                    placeholder="linkedin.com/in/johndoe"
+                  />
+                </div>
+              </div>
+            </motion.section>
+          )}
+
+          {activeSection === "summary" && (
+            <motion.section 
+              key="summary"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-1.5"
+            >
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Professional Summary</label>
+              <textarea 
+                {...register("summary")}
+                rows={8}
+                className="w-full px-4 py-3 rounded-md bg-background border border-input text-sm focus:ring-1 focus:ring-ring transition-all resize-none leading-relaxed"
+                placeholder="Briefly describe your career background and key strengths..."
+              />
+            </motion.section>
+          )}
+
+          {activeSection === "experience" && (
+            <motion.section 
+              key="experience"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-6"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm font-semibold">Work Experience</h3>
+                <button 
+                  type="button" 
+                  onClick={() => appendExp({ id: crypto.randomUUID(), company: "", position: "", startDate: "", endDate: "", description: "" })}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Role
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {expFields.map((field, index) => (
+                  <div 
+                    key={field.id}
+                    className="p-4 border border-border rounded-lg bg-card/30 relative group"
                   >
-                    <Plus className="w-4 h-4" /> Add Role
-                  </button>
-                </div>
-
-                <div className="space-y-8">
-                  {expFields.map((field, index) => (
-                    <div 
-                      key={field.id}
-                      className="p-6 border border-border/60 rounded-3xl bg-background/50 relative group/item hover:border-orange-500/30 transition-colors shadow-sm"
+                    <button 
+                      type="button" 
+                      onClick={() => removeExp(index)}
+                      className="absolute top-2 right-2 p-1.5 text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                     >
-                      <button 
-                        type="button" 
-                        onClick={() => removeExp(index)}
-                        className="absolute top-6 right-6 p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all opacity-0 group-hover/item:opacity-100"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 pr-12">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Job Title</label>
+                        <input 
+                          {...register(`experience.${index}.position`)}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="Position"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Company</label>
+                        <input 
+                          {...register(`experience.${index}.company`)}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="Company"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 sm:col-span-2">
                         <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Job Title</label>
-                          <input 
-                            {...register(`experience.${index}.position`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all"
-                            placeholder="Senior Developer"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Company Name</label>
-                          <input 
-                            {...register(`experience.${index}.company`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all"
-                            placeholder="Tech Corp"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Start Date</label>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Start</label>
                           <input 
                             {...register(`experience.${index}.startDate`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all"
+                            className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
                             placeholder="Jan 2020"
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">End Date</label>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">End</label>
                           <input 
                             {...register(`experience.${index}.endDate`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all"
+                            className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
                             placeholder="Present"
                           />
                         </div>
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Key Responsibilities & Achievements</label>
+                      <div className="sm:col-span-2 space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
                         <textarea 
                           {...register(`experience.${index}.description`)}
-                          rows={6}
-                          className="w-full px-4 py-3 rounded-2xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all resize-none leading-relaxed"
-                          placeholder="Describe your achievements and impact..."
+                          rows={4}
+                          className="w-full px-3 py-2 rounded-md bg-background border border-input text-xs resize-none"
+                          placeholder="Key achievements..."
                         />
                       </div>
                     </div>
-                  ))}
-                  {expFields.length === 0 && (
-                    <div className="text-center py-16 border-2 border-dashed border-border rounded-3xl bg-muted/20">
-                      <Briefcase className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                      <p className="text-muted-foreground font-medium">No work experience added yet.</p>
-                      <p className="text-sm text-muted-foreground/60 mt-1">Click the "Add Role" button above to start.</p>
-                    </div>
-                  )}
-                </div>
-              </motion.section>
-            )}
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
 
-            {activeSection === "education" && (
-              <motion.section 
-                key="education"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-violet-500/20 group-hover:bg-violet-500 transition-colors"></div>
-                <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-2xl font-black tracking-tight">Education</h2>
-                  <button 
-                    type="button" 
-                    onClick={() => appendEdu({ id: crypto.randomUUID(), institution: "", degree: "", startDate: "", endDate: "" })}
-                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-violet-500 text-white rounded-2xl hover:bg-violet-600 transition-all shadow-lg shadow-violet-500/20 hover:-translate-y-0.5 active:translate-y-0"
+          {activeSection === "education" && (
+            <motion.section 
+              key="education"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-6"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm font-semibold">Education</h3>
+                <button 
+                  type="button" 
+                  onClick={() => appendEdu({ id: crypto.randomUUID(), institution: "", degree: "", startDate: "", endDate: "" })}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Education
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {eduFields.map((field, index) => (
+                  <div 
+                    key={field.id}
+                    className="p-4 border border-border rounded-lg bg-card/30 relative group"
                   >
-                    <Plus className="w-4 h-4" /> Add Education
-                  </button>
-                </div>
-
-                <div className="space-y-6">
-                  {eduFields.map((field, index) => (
-                    <div 
-                      key={field.id}
-                      className="p-6 border border-border/60 rounded-3xl bg-background/50 relative group/item hover:border-violet-500/30 transition-colors shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6"
+                    <button 
+                      type="button" 
+                      onClick={() => removeEdu(index)}
+                      className="absolute top-2 right-2 p-1.5 text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                     >
-                      <button 
-                        type="button" 
-                        onClick={() => removeEdu(index)}
-                        className="absolute top-6 right-6 p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all opacity-0 group-hover/item:opacity-100"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                      
-                      <div className="md:col-span-2 pr-12 space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Degree / Major</label>
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="sm:col-span-2 space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Degree</label>
                         <input 
                           {...register(`education.${index}.degree`)}
-                          className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 transition-all"
-                          placeholder="B.S. Computer Science"
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="Degree Name"
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Institution / University</label>
+                      <div className="sm:col-span-2 space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Institution</label>
                         <input 
                           {...register(`education.${index}.institution`)}
-                          className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 transition-all"
-                          placeholder="University of Technology"
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="University"
                         />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Start Year</label>
-                          <input 
-                            {...register(`education.${index}.startDate`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 transition-all"
-                            placeholder="2016"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">End Year</label>
-                          <input 
-                            {...register(`education.${index}.endDate`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-violet-500/10 focus:border-violet-500 transition-all"
-                            placeholder="2020"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {eduFields.length === 0 && (
-                    <div className="text-center py-16 border-2 border-dashed border-border rounded-3xl bg-muted/20">
-                      <GraduationCap className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                      <p className="text-muted-foreground font-medium">No education history added yet.</p>
-                      <p className="text-sm text-muted-foreground/60 mt-1">Add your degrees and certificates to showcase your expertise.</p>
-                    </div>
-                  )}
-                </div>
-              </motion.section>
-            )}
-
-            {activeSection === "skills" && (
-              <motion.section 
-                key="skills"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-cyan-500/20 group-hover:bg-cyan-500 transition-colors"></div>
-                <h2 className="text-2xl font-black tracking-tight mb-8">Skills & Expertise</h2>
-                <div className="flex gap-3 mb-8">
-                  <input 
-                    value={skillInput}
-                    onChange={(e) => setSkillInput(e.target.value)}
-                    onKeyDown={addSkill}
-                    className="flex-1 px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 transition-all shadow-sm font-medium"
-                    placeholder="Type a skill (e.g. React) and press Enter..."
-                  />
-                  <button 
-                    type="button"
-                    onClick={addSkill}
-                    className="px-6 py-3 bg-cyan-500 text-white font-bold rounded-2xl hover:bg-cyan-600 transition-all shadow-lg shadow-cyan-500/20 active:scale-95"
-                  >
-                    Add
-                  </button>
-                </div>
-                
-                <div className="flex flex-wrap gap-3">
-                  <AnimatePresence>
-                    {skills.map((skill, index) => (
-                      <motion.div 
-                        key={`${skill}-${index}`}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        className="flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-700 font-bold text-sm rounded-xl border border-cyan-100 group/skill shadow-sm"
-                      >
-                        {skill}
-                        <button 
-                          type="button" 
-                          onClick={() => removeSkill(index)}
-                          className="text-cyan-400 hover:text-destructive transition-colors"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-              </motion.section>
-            )}
-
-            {activeSection === "projects" && (
-              <motion.section 
-                key="projects"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-rose-500/20 group-hover:bg-rose-500 transition-colors"></div>
-                <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-2xl font-black tracking-tight">Key Projects</h2>
-                  <button 
-                    type="button" 
-                    onClick={() => appendProj({ id: crypto.randomUUID(), name: "", description: "", link: "" })}
-                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-rose-500 text-white rounded-2xl hover:bg-rose-600 transition-all shadow-lg shadow-rose-500/20 hover:-translate-y-0.5 active:translate-y-0"
-                  >
-                    <Plus className="w-4 h-4" /> Add Project
-                  </button>
-                </div>
-
-                <div className="space-y-6">
-                  {projFields.map((field, index) => (
-                    <div 
-                      key={field.id}
-                      className="p-6 border border-border/60 rounded-3xl bg-background/50 relative group/item hover:border-rose-500/30 transition-colors shadow-sm"
-                    >
-                      <button 
-                        type="button" 
-                        onClick={() => removeProj(index)}
-                        className="absolute top-6 right-6 p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all opacity-0 group-hover/item:opacity-100"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 pr-12">
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Project Name</label>
-                          <input 
-                            {...register(`projects.${index}.name`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 transition-all"
-                            placeholder="E-commerce Platform"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Project URL (Optional)</label>
-                          <input 
-                            {...register(`projects.${index}.link`)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 transition-all"
-                            placeholder="https://github.com/..."
-                          />
-                        </div>
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Project Description</label>
-                        <textarea 
-                          {...register(`projects.${index}.description`)}
-                          rows={4}
-                          className="w-full px-4 py-3 rounded-2xl bg-background border border-border/60 text-sm font-medium focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 transition-all resize-none leading-relaxed"
-                          placeholder="What did you build and which technologies did you use?"
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Start</label>
+                        <input 
+                          {...register(`education.${index}.startDate`)}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="2016"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">End</label>
+                        <input 
+                          {...register(`education.${index}.endDate`)}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="2020"
                         />
                       </div>
                     </div>
-                  ))}
-                  {projFields.length === 0 && (
-                    <div className="text-center py-16 border-2 border-dashed border-border rounded-3xl bg-muted/20">
-                      <Layout className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                      <p className="text-muted-foreground font-medium">No projects added yet.</p>
-                      <p className="text-sm text-muted-foreground/60 mt-1">Showcase your best work by adding your favorite projects.</p>
-                    </div>
-                  )}
-                </div>
-              </motion.section>
-            )}
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
 
-            {activeSection === "hobbies" && (
-              <motion.section 
-                key="hobbies"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="bg-card p-8 rounded-3xl shadow-xl shadow-black/5 border border-border overflow-hidden relative group"
-              >
-                <div className="absolute top-0 left-0 w-2 h-full bg-pink-500/20 group-hover:bg-pink-500 transition-colors"></div>
-                <h2 className="text-2xl font-black tracking-tight mb-8">Hobbies & Interests</h2>
-                <div className="flex gap-3 mb-8">
-                  <input 
-                    value={hobbyInput}
-                    onChange={(e) => setHobbiesInput(e.target.value)}
-                    onKeyDown={addHobby}
-                    className="flex-1 px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 transition-all shadow-sm font-medium"
-                    placeholder="Type a hobby and press Enter..."
-                  />
-                  <button 
-                    type="button"
-                    onClick={addHobby}
-                    className="px-6 py-3 bg-pink-500 text-white font-bold rounded-2xl hover:bg-pink-600 transition-all shadow-lg shadow-pink-500/20 active:scale-95"
+          {activeSection === "skills" && (
+            <motion.section 
+              key="skills"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-4"
+            >
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Skills</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={addSkill}
+                  className="flex-1 px-3 py-2 rounded-md bg-background border border-input text-sm"
+                  placeholder="Add a skill (Press Enter)"
+                />
+                <button 
+                  type="button" 
+                  onClick={addSkill}
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {skills.map((skill, index) => (
+                  <span 
+                    key={index}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-secondary text-secondary-foreground rounded text-xs font-medium border"
                   >
-                    Add
-                  </button>
-                </div>
-                
-                <div className="flex flex-wrap gap-3">
-                  <AnimatePresence>
-                    {hobbies.map((hobby, index) => (
-                      <motion.div 
-                        key={`${hobby}-${index}`}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        className="flex items-center gap-2 px-4 py-2 bg-pink-50 text-pink-700 font-bold text-sm rounded-xl border border-pink-100 group/hobby shadow-sm"
+                    {skill}
+                    <button type="button" onClick={() => removeSkill(index)}>
+                      <Trash2 className="w-3 h-3 hover:text-destructive" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {activeSection === "projects" && (
+            <motion.section 
+              key="projects"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-6"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm font-semibold">Projects</h3>
+                <button 
+                  type="button" 
+                  onClick={() => appendProj({ id: crypto.randomUUID(), name: "", description: "", link: "" })}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Project
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {projFields.map((field, index) => (
+                  <div 
+                    key={field.id}
+                    className="p-4 border border-border rounded-lg bg-card/30 relative group"
+                  >
+                    <button 
+                      type="button" 
+                      onClick={() => removeProj(index)}
+                      className="absolute top-2 right-2 p-1.5 text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="space-y-3">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Project Name</label>
+                        <input 
+                          {...register(`projects.${index}.name`)}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs font-semibold"
+                          placeholder="Project Name"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Link</label>
+                        <input 
+                          {...register(`projects.${index}.link`)}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                          placeholder="https://..."
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
+                        <textarea 
+                          {...register(`projects.${index}.description`)}
+                          rows={3}
+                          className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs resize-none"
+                          placeholder="What did you build?"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {activeSection === "languages" && (
+            <motion.section 
+              key="languages"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-6"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm font-semibold">Languages</h3>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    const current = form.getValues("languages") || [];
+                    form.setValue("languages", [...current, { name: "", level: "Beginner" }]);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Language
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {(form.watch("languages") || []).map((_, index) => (
+                  <div key={index} className="flex gap-4 items-end p-4 border rounded-lg bg-card/30 relative group">
+                    <div className="flex-1 space-y-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Language</label>
+                      <input 
+                        {...register(`languages.${index}.name`)}
+                        className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
+                        placeholder="e.g. Spanish"
+                      />
+                    </div>
+                    <div className="flex-1 space-y-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Level</label>
+                      <select 
+                        {...register(`languages.${index}.level`)}
+                        className="w-full px-3 py-1.5 rounded-md bg-background border border-input text-xs"
                       >
-                        {hobby}
-                        <button 
-                          type="button" 
-                          onClick={() => removeHobby(index)}
-                          className="text-pink-400 hover:text-destructive transition-colors"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-              </motion.section>
-            )}
-          </AnimatePresence>
-        </div>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                        <option value="Native">Native</option>
+                      </select>
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        const current = form.getValues("languages") || [];
+                        form.setValue("languages", current.filter((__, i) => i !== index));
+                      }}
+                      className="p-2 text-muted-foreground hover:text-destructive"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {activeSection === "hobbies" && (
+            <motion.section 
+              key="hobbies"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="space-y-4"
+            >
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Hobbies</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text"
+                  value={hobbyInput}
+                  onChange={(e) => setHobbiesInput(e.target.value)}
+                  onKeyDown={addHobby}
+                  className="flex-1 px-3 py-2 rounded-md bg-background border border-input text-sm"
+                  placeholder="Add a hobby"
+                />
+                <button 
+                  type="button" 
+                  onClick={addHobby}
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {hobbies.map((hobby, index) => (
+                  <span 
+                    key={index}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-secondary text-secondary-foreground rounded text-xs font-medium border"
+                  >
+                    {hobby}
+                    <button type="button" onClick={() => removeHobby(index)}>
+                      <Trash2 className="w-3 h-3 hover:text-destructive" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

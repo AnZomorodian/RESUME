@@ -21,6 +21,7 @@ export const resumes = pgTable("resumes", {
   skills: json("skills").notNull(),
   projects: json("projects").notNull(),
   hobbies: json("hobbies").notNull().default([]),
+  languages: json("languages").notNull().default([]),
   createdAt: text("created_at").notNull(),
 });
 
@@ -73,10 +74,15 @@ export const createResumeRequestSchema = insertResumeSchema.extend({
   skills: z.array(z.string()),
   projects: z.array(projectZod),
   hobbies: z.array(z.string()).default([]),
+  languages: z.array(z.object({
+    name: z.string(),
+    level: z.enum(["Beginner", "Intermediate", "Advanced", "Native"]),
+  })).default([]),
   style: z.enum([
     "minimal", "modern", "classic", "creative", "professional", 
     "elegant", "bold", "clean", "tech", "executive",
-    "vintage", "playful", "corporate", "startup", "academic", "canva"
+    "vintage", "playful", "corporate", "startup", "academic", "canva", "premium",
+    "emerald", "slate", "royal", "tokyo", "organic"
   ]).default("minimal"),
   language: z.string().min(1, "Language is required").default("English"),
 });

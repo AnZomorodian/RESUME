@@ -7,6 +7,9 @@ import NotFound from "@/pages/not-found";
 import Home from "./pages/Home";
 import Editor from "./pages/Editor";
 import AuthPage from "./pages/AuthPage";
+import HelpCenter from "./pages/HelpCenter";
+import ContactUs from "./pages/ContactUs";
+import Feedback from "./pages/Feedback";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -33,6 +36,9 @@ function Router() {
         <Route path="/privacy" component={PrivacyPolicy} />
         <Route path="/terms" component={TermsOfService} />
         <Route path="/cookies" component={CookiePolicy} />
+        <Route path="/help" component={HelpCenter} />
+        <Route path="/contact" component={ContactUs} />
+        <Route path="/feedback" component={Feedback} />
         <Route>
           <AuthPage />
         </Route>
@@ -47,6 +53,9 @@ function Router() {
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={TermsOfService} />
       <Route path="/cookies" component={CookiePolicy} />
+      <Route path="/help" component={HelpCenter} />
+      <Route path="/contact" component={ContactUs} />
+      <Route path="/feedback" component={Feedback} />
       <Route component={NotFound} />
     </Switch>
   );
