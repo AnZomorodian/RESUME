@@ -6,9 +6,10 @@ import { createResumeRequestSchema, CreateResumeRequest } from "@shared/schema";
 import { useCreateResume, useUpdateResume, useResume } from "@/hooks/use-resumes";
 import { ResumeForm } from "@/components/ResumeForm";
 import { ResumePreview } from "@/components/ResumePreview";
-import { ArrowLeft, Save, Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Download, Loader2, Image as ImageIcon } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { motion } from "framer-motion";
+import html2canvas from "html2canvas";
 
 const DEFAULT_RESUME: CreateResumeRequest = {
   title: "My Resume",
@@ -70,6 +71,23 @@ export default function Editor() {
     onAfterPrint: () => console.log("Printed"),
   });
 
+  const exportAsPng = async () => {
+    if (!printRef.current) return;
+    try {
+      const canvas = await html2canvas(printRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+      });
+      const link = document.createElement("a");
+      link.download = `${formData.title || "resume"}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (err) {
+      console.error("Failed to export PNG:", err);
+    }
+  };
+
   const isSaving = createMutation.isPending || updateMutation.isPending;
 
   useEffect(() => {
@@ -124,17 +142,23 @@ export default function Editor() {
           <h1 className="font-bold text-lg">{formData.title || "Untitled Resume"}</h1>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => handlePrint()}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-foreground bg-secondary hover:bg-secondary/80 rounded-lg transition-colors"
+            className="hidden sm:flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-foreground bg-secondary hover:bg-secondary/80 rounded-lg transition-colors"
           >
-            <Download className="w-4 h-4" /> Export PDF
+            <Download className="w-4 h-4" /> PDF
+          </button>
+          <button
+            onClick={() => exportAsPng()}
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-foreground bg-secondary hover:bg-secondary/80 rounded-lg transition-colors"
+          >
+            <ImageIcon className="w-4 h-4" /> PNG
           </button>
           <button
             onClick={form.handleSubmit(onSubmit)}
             disabled={isSaving}
-            className="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-primary text-primary-foreground rounded-lg shadow-md hover:shadow-lg hover:bg-primary/90 transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-4 sm:px-5 py-2 text-xs sm:text-sm font-semibold bg-primary text-primary-foreground rounded-lg shadow-md hover:shadow-lg hover:bg-primary/90 transition-all disabled:opacity-50"
           >
             {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save
@@ -143,22 +167,24 @@ export default function Editor() {
       </header>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex overflow-hidden no-print relative">
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden no-print relative">
         
         {/* Left: Form Area */}
-        <div className="w-full lg:w-[45%] xl:w-[40%] h-full overflow-y-auto bg-background/50 border-r border-border p-6">
+        <div className="w-full lg:w-[45%] xl:w-[40%] h-full overflow-y-auto bg-background/50 border-b lg:border-b-0 lg:border-r border-border p-4 sm:p-6">
           <div className="max-w-xl mx-auto">
             <ResumeForm form={form} />
           </div>
         </div>
 
         {/* Right: Live Preview Area */}
-        <div className="hidden lg:flex flex-1 h-full overflow-y-auto bg-neutral-100 items-start justify-center p-8">
+        <div className="flex-1 h-full overflow-y-auto bg-neutral-100 items-start justify-center p-4 sm:p-8 flex">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="resume-scale-wrapper origin-top mb-12"
-            style={{ scale: 0.8 }} // Using CSS scale for better preview handling
+            style={{ 
+              scale: typeof window !== 'undefined' && window.innerWidth < 1024 ? Math.min(0.8, (window.innerWidth - 32) / 800) : 0.8 
+            }}
           >
             <ResumePreview ref={printRef} data={formData as CreateResumeRequest} />
           </motion.div>

@@ -71,11 +71,11 @@ export function ResumeForm({ form }: ResumeFormProps) {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 pb-20">
+    <div className="flex flex-col xl:flex-row gap-6 lg:gap-8 pb-20">
       {/* Section Sidebar Navigation */}
-      <div className="lg:w-64 flex-shrink-0">
-        <div className="sticky top-6 space-y-2">
-          <div className="px-4 py-2 mb-4">
+      <div className="xl:w-64 flex-shrink-0">
+        <div className="xl:sticky xl:top-6 flex xl:flex-col gap-2 overflow-x-auto pb-4 xl:pb-0 no-scrollbar">
+          <div className="px-4 py-2 mb-2 xl:mb-4 hidden xl:block">
             <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Resume Sections</h3>
           </div>
           {SECTIONS.map((section) => {
@@ -85,14 +85,14 @@ export function ResumeForm({ form }: ResumeFormProps) {
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                  "flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-all",
                   activeSection === section.id
                     ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground bg-card sm:bg-transparent border border-border sm:border-0"
                 )}
               >
                 <Icon className="w-4 h-4" />
-                {section.label}
+                <span className="whitespace-nowrap">{section.label}</span>
               </button>
             );
           })}
@@ -110,7 +110,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             <div className="space-y-2">
               <label className="text-sm font-bold flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
                 <Globe className="w-4 h-4" />
@@ -118,7 +118,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
               </label>
               <input 
                 {...register("language")}
-                className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm font-medium"
+                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm font-medium text-sm sm:text-base"
                 placeholder="e.g. English"
               />
               {errors.language && <p className="text-sm text-destructive mt-1 font-medium">{errors.language.message}</p>}
@@ -130,7 +130,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
               </label>
               <input 
                 {...register("title")}
-                className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm font-medium"
+                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm font-medium text-sm sm:text-base"
                 placeholder="e.g. Software Engineer Resume"
               />
               {errors.title && <p className="text-sm text-destructive mt-1 font-medium">{errors.title.message}</p>}
@@ -144,7 +144,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
               <div className="relative">
                 <select 
                   {...register("style")}
-                  className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm capitalize appearance-none font-medium cursor-pointer"
+                  className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm capitalize appearance-none font-medium cursor-pointer text-sm sm:text-base"
                 >
                   {STYLES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -168,12 +168,12 @@ export function ResumeForm({ form }: ResumeFormProps) {
               >
                 <div className="absolute top-0 left-0 w-2 h-full bg-blue-500/20 group-hover:bg-blue-500 transition-colors"></div>
                 <h2 className="text-2xl font-black tracking-tight mb-8">Personal Information</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="md:col-span-2 space-y-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="sm:col-span-2 space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
                     <input 
                       {...register("personalInfo.fullName")}
-                      className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium"
+                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
                       placeholder="John Doe"
                     />
                     {errors.personalInfo?.fullName && <p className="text-sm text-destructive mt-1 font-medium">{errors.personalInfo.fullName.message}</p>}
@@ -183,7 +183,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
                     <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
                     <input 
                       {...register("personalInfo.email")}
-                      className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium"
+                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
                       placeholder="john@example.com"
                     />
                   </div>
@@ -192,7 +192,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
                     <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Phone Number</label>
                     <input 
                       {...register("personalInfo.phone")}
-                      className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium"
+                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
                       placeholder="+1 (555) 123-4567"
                     />
                   </div>
@@ -201,7 +201,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
                     <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Location</label>
                     <input 
                       {...register("personalInfo.location")}
-                      className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium"
+                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
                       placeholder="San Francisco, CA"
                     />
                   </div>
@@ -210,7 +210,7 @@ export function ResumeForm({ form }: ResumeFormProps) {
                     <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Portfolio / LinkedIn</label>
                     <input 
                       {...register("personalInfo.website")}
-                      className="w-full px-5 py-3 rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium"
+                      className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-background border border-border/60 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium text-sm sm:text-base"
                       placeholder="https://linkedin.com/in/johndoe"
                     />
                   </div>
