@@ -7,6 +7,9 @@ import NotFound from "@/pages/not-found";
 import Home from "./pages/Home";
 import Editor from "./pages/Editor";
 import AuthPage from "./pages/AuthPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
 import { Loader2 } from "lucide-react";
 
 function Router() {
@@ -27,6 +30,9 @@ function Router() {
     return (
       <Switch>
         <Route path="/auth" component={AuthPage} />
+        <Route path="/privacy" component={PrivacyPolicy} />
+        <Route path="/terms" component={TermsOfService} />
+        <Route path="/cookies" component={CookiePolicy} />
         <Route>
           <AuthPage />
         </Route>
@@ -38,6 +44,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/editor/:id" component={Editor} />
+      <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/terms" component={TermsOfService} />
+      <Route path="/cookies" component={CookiePolicy} />
       <Route component={NotFound} />
     </Switch>
   );

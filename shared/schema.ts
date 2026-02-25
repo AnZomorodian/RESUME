@@ -76,7 +76,7 @@ export const createResumeRequestSchema = insertResumeSchema.extend({
   style: z.enum([
     "minimal", "modern", "classic", "creative", "professional", 
     "elegant", "bold", "clean", "tech", "executive",
-    "vintage", "playful", "corporate", "startup", "academic"
+    "vintage", "playful", "corporate", "startup", "academic", "canva"
   ]).default("minimal"),
   language: z.string().min(1, "Language is required").default("English"),
 });

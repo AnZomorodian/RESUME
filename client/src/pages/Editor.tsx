@@ -157,8 +157,8 @@ export default function Editor() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="resume-scale-wrapper"
-            style={{ zoom: 0.8 }} // Slight zoom out to fit typical screens better
+            className="resume-scale-wrapper origin-top mb-12"
+            style={{ scale: 0.8 }} // Using CSS scale for better preview handling
           >
             <ResumePreview ref={printRef} data={formData as CreateResumeRequest} />
           </motion.div>

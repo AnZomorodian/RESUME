@@ -214,6 +214,19 @@ const STYLE_MAP: Record<string, {
     itemDate: "text-sm text-gray-700 float-right",
     bodyText: "text-sm text-gray-800 mt-1",
     skillPill: "text-sm text-gray-800 px-2",
+  },
+  canva: {
+    wrapper: "font-['Montserrat'] text-slate-900 bg-white leading-tight",
+    header: "mb-0 flex flex-row h-[60mm] -mx-[15mm] -mt-[15mm] overflow-hidden",
+    name: "text-5xl font-black uppercase tracking-tighter leading-none text-white",
+    contact: "flex flex-col gap-2 text-sm font-bold text-white/90 mt-4",
+    section: "mb-8",
+    sectionTitle: "text-xl font-black uppercase tracking-widest text-slate-900 mb-4 pb-1 border-b-4 border-slate-900 inline-block",
+    itemTitle: "text-lg font-extrabold text-slate-900 uppercase tracking-tight",
+    itemSubtitle: "text-sm font-bold text-indigo-600 uppercase mb-1",
+    itemDate: "text-xs font-black text-slate-400 uppercase tracking-widest",
+    bodyText: "text-sm font-medium text-slate-600 mt-2 leading-snug",
+    skillPill: "text-xs font-black uppercase tracking-widest text-white bg-slate-900 px-3 py-1.5 rounded-full",
   }
 };
 
@@ -221,156 +234,196 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ data }, ref) => {
     const style = STYLE_MAP[data.style || "minimal"];
     const isClean = data.style === "clean";
+    const isCanva = data.style === "canva";
     const language = data.language || "English";
 
     return (
       <div 
         ref={ref} 
         className={`print-exact w-[210mm] min-h-[297mm] p-[15mm] mx-auto shadow-2xl ring-1 ring-black/5 flex flex-col ${style.wrapper}`}
-        style={{ height: '297mm', overflow: 'hidden' }}
+        style={{ height: 'auto', minHeight: '297mm', overflow: 'visible' }}
       >
-        <header className={style.header}>
-          <div className={isClean ? "" : "w-full"}>
-            <h1 className={style.name}>{data.personalInfo.fullName || "Your Name"}</h1>
-            <div className="flex items-center gap-2">
-              {language && <div className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{language}</div>}
+        {isCanva ? (
+          <header className={style.header}>
+            <div className="w-1/3 bg-slate-900 p-8 flex flex-col justify-center">
+              <div className="w-24 h-24 bg-white/10 rounded-full mb-6 flex items-center justify-center border-4 border-white/20">
+                <User className="w-12 h-12 text-white" />
+              </div>
+              <div className={style.contact}>
+                {data.personalInfo.email && (
+                  <div className="flex items-center gap-2">
+                    <Mail className="w-4 h-4 shrink-0" /> <span className="truncate">{data.personalInfo.email}</span>
+                  </div>
+                )}
+                {data.personalInfo.phone && (
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-4 h-4 shrink-0" /> {data.personalInfo.phone}
+                  </div>
+                )}
+                {data.personalInfo.location && (
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 shrink-0" /> {data.personalInfo.location}
+                  </div>
+                )}
+              </div>
             </div>
-            {!isClean && data.personalInfo.fullName && <div className="h-2"></div>}
+            <div className="flex-1 bg-indigo-600 p-8 flex flex-col justify-center">
+              <h1 className={style.name}>{data.personalInfo.fullName || "Your Name"}</h1>
+              {data.summary && (
+                <p className="text-white/80 text-sm font-medium mt-4 line-clamp-3 leading-relaxed">
+                  {data.summary}
+                </p>
+              )}
+            </div>
+          </header>
+        ) : (
+          <header className={style.header}>
+            <div className={isClean ? "" : "w-full"}>
+              <h1 className={style.name}>{data.personalInfo.fullName || "Your Name"}</h1>
+              <div className="flex items-center gap-2">
+                {language && <div className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{language}</div>}
+              </div>
+              {!isClean && data.personalInfo.fullName && <div className="h-2"></div>}
+            </div>
+            
+            <div className={style.contact}>
+              {data.personalInfo.email && (
+                <div className="flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5" /> {data.personalInfo.email}
+                </div>
+              )}
+              {data.personalInfo.phone && (
+                <div className="flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5" /> {data.personalInfo.phone}
+                </div>
+              )}
+              {data.personalInfo.location && (
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5" /> {data.personalInfo.location}
+                </div>
+              )}
+              {data.personalInfo.website && (
+                <div className="flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5" /> {data.personalInfo.website}
+                </div>
+              )}
+            </div>
+          </header>
+        )}
+
+        <div className={isCanva ? "flex flex-row gap-8 mt-8 flex-1" : "flex flex-col flex-1"}>
+          <div className={isCanva ? "w-2/3 flex flex-col gap-8" : "w-full flex flex-col"}>
+            {data.summary && !isCanva && (
+              <section className={style.section}>
+                {isClean ? (
+                  <>
+                    <h2 className={style.sectionTitle}>Summary</h2>
+                    <div className="flex-1">
+                      <p className={style.bodyText}>{data.summary}</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h2 className={style.sectionTitle}>Professional Summary</h2>
+                    <p className={style.bodyText}>{data.summary}</p>
+                  </>
+                )}
+              </section>
+            )}
+
+            {data.experience.length > 0 && (
+              <section className={style.section}>
+                <h2 className={style.sectionTitle}>Experience</h2>
+                <div className={isClean ? "flex-1 flex flex-col gap-6" : "flex flex-col gap-5 w-full"}>
+                  {data.experience.map((exp) => (
+                    <div key={exp.id}>
+                      <div className="flex justify-between items-baseline mb-1">
+                        <div>
+                          <h3 className={style.itemTitle}>{exp.position}</h3>
+                          <div className={style.itemSubtitle}>{exp.company}</div>
+                        </div>
+                        <div className={style.itemDate}>
+                          {exp.startDate} {exp.endDate ? `— ${exp.endDate}` : ""}
+                        </div>
+                      </div>
+                      <p className={`${style.bodyText} whitespace-pre-line`}>{exp.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {data.projects.length > 0 && (
+              <section className={style.section}>
+                <h2 className={style.sectionTitle}>Projects</h2>
+                <div className={isClean ? "flex-1 flex flex-col gap-5" : "flex flex-col gap-4 w-full"}>
+                  {data.projects.map((proj) => (
+                    <div key={proj.id}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className={style.itemTitle}>{proj.name}</h3>
+                        {proj.link && (
+                          <a href={proj.link} className="text-xs text-blue-500 hover:underline">Link ↗</a>
+                        )}
+                      </div>
+                      <p className={style.bodyText}>{proj.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
-          
-          <div className={style.contact}>
-            {data.personalInfo.email && (
-              <div className="flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5" /> {data.personalInfo.email}
-              </div>
+
+          <div className={isCanva ? "w-1/3 flex flex-col gap-8" : "w-full flex flex-col"}>
+            {data.education.length > 0 && (
+              <section className={style.section}>
+                <h2 className={style.sectionTitle}>Education</h2>
+                <div className={isClean ? "flex-1 flex flex-col gap-5" : "flex flex-col gap-4 w-full"}>
+                  {data.education.map((edu) => (
+                    <div key={edu.id}>
+                      <div className="flex flex-col mb-1">
+                        <h3 className={style.itemTitle}>{edu.degree}</h3>
+                        <div className={style.itemSubtitle}>{edu.institution}</div>
+                        <div className={style.itemDate}>
+                          {edu.startDate} {edu.endDate ? `— ${edu.endDate}` : ""}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
             )}
-            {data.personalInfo.phone && (
-              <div className="flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5" /> {data.personalInfo.phone}
-              </div>
+
+            {data.skills.length > 0 && (
+              <section className={style.section}>
+                <h2 className={style.sectionTitle}>Skills</h2>
+                <div className={isClean ? "flex-1" : "w-full"}>
+                  <div className="flex flex-wrap gap-2">
+                    {data.skills.map((skill, index) => (
+                      <span key={index} className={style.skillPill}>
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </section>
             )}
-            {data.personalInfo.location && (
-              <div className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5" /> {data.personalInfo.location}
-              </div>
-            )}
-            {data.personalInfo.website && (
-              <div className="flex items-center gap-1.5">
-                <Globe className="w-3.5 h-3.5" /> {data.personalInfo.website}
-              </div>
+
+            {(data.hobbies && data.hobbies.length > 0) && (
+              <section className={style.section}>
+                <h2 className={style.sectionTitle}>Hobbies</h2>
+                <div className={isClean ? "flex-1" : "w-full"}>
+                  <div className="flex flex-wrap gap-2">
+                    {data.hobbies.map((hobby, index) => (
+                      <span key={index} className={style.skillPill}>
+                        {hobby}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </section>
             )}
           </div>
-        </header>
-
-        {data.summary && (
-          <section className={style.section}>
-            {isClean ? (
-              <>
-                <h2 className={style.sectionTitle}>Summary</h2>
-                <div className="flex-1">
-                  <p className={style.bodyText}>{data.summary}</p>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className={style.sectionTitle}>Professional Summary</h2>
-                <p className={style.bodyText}>{data.summary}</p>
-              </>
-            )}
-          </section>
-        )}
-
-        {data.experience.length > 0 && (
-          <section className={style.section}>
-            {isClean ? <h2 className={style.sectionTitle}>Experience</h2> : <h2 className={style.sectionTitle}>Experience</h2>}
-            <div className={isClean ? "flex-1 flex flex-col gap-6" : "flex flex-col gap-5 w-full"}>
-              {data.experience.map((exp) => (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <div>
-                      <h3 className={style.itemTitle}>{exp.position}</h3>
-                      <div className={style.itemSubtitle}>{exp.company}</div>
-                    </div>
-                    <div className={style.itemDate}>
-                      {exp.startDate} {exp.endDate ? `— ${exp.endDate}` : ""}
-                    </div>
-                  </div>
-                  <p className={`${style.bodyText} whitespace-pre-line`}>{exp.description}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {data.education.length > 0 && (
-          <section className={style.section}>
-            {isClean ? <h2 className={style.sectionTitle}>Education</h2> : <h2 className={style.sectionTitle}>Education</h2>}
-            <div className={isClean ? "flex-1 flex flex-col gap-5" : "flex flex-col gap-4 w-full"}>
-              {data.education.map((edu) => (
-                <div key={edu.id}>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <div>
-                      <h3 className={style.itemTitle}>{edu.degree}</h3>
-                      <div className={style.itemSubtitle}>{edu.institution}</div>
-                    </div>
-                    <div className={style.itemDate}>
-                      {edu.startDate} {edu.endDate ? `— ${edu.endDate}` : ""}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {data.projects.length > 0 && (
-          <section className={style.section}>
-            {isClean ? <h2 className={style.sectionTitle}>Projects</h2> : <h2 className={style.sectionTitle}>Projects</h2>}
-            <div className={isClean ? "flex-1 flex flex-col gap-5" : "flex flex-col gap-4 w-full"}>
-              {data.projects.map((proj) => (
-                <div key={proj.id}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className={style.itemTitle}>{proj.name}</h3>
-                    {proj.link && (
-                      <a href={proj.link} className="text-xs text-blue-500 hover:underline">Link ↗</a>
-                    )}
-                  </div>
-                  <p className={style.bodyText}>{proj.description}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {data.skills.length > 0 && (
-          <section className={style.section}>
-            {isClean ? <h2 className={style.sectionTitle}>Skills</h2> : <h2 className={style.sectionTitle}>Skills</h2>}
-            <div className={isClean ? "flex-1" : "w-full"}>
-              <div className="flex flex-wrap gap-2">
-                {data.skills.map((skill, index) => (
-                  <span key={index} className={style.skillPill}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {(data.hobbies && data.hobbies.length > 0) && (
-          <section className={style.section}>
-            {isClean ? <h2 className={style.sectionTitle}>Hobbies</h2> : <h2 className={style.sectionTitle}>Hobbies</h2>}
-            <div className={isClean ? "flex-1" : "w-full"}>
-              <div className="flex flex-wrap gap-2">
-                {data.hobbies.map((hobby, index) => (
-                  <span key={index} className={style.skillPill}>
-                    {hobby}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        </div>
       </div>
     );
   }
